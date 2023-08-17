@@ -32,15 +32,16 @@ export function Model(props: JSX.IntrinsicElements['group']) {
   ) as GLTFResult;
   const { actions, mixer } = useAnimations<GLTFActions>(animations, group);
   useEffect(() => {
-    // actions['Armature|Spring_Action'].play();
-    const clipAction = mixer.clipAction(animations[0]);
-    // clipAction.play();
-    // mixer.set time after 2 seconds
-    const timer = setTimeout(() => {
-      console.log('set time');
-      mixer.setTime(0.5);
-    }, 1000);
-    return () => clearTimeout(timer);
+    const animationAction = mixer.clipAction(animations[0]);
+    // Start the animation
+    animationAction.play();
+
+    // Wait for the desired time before stopping the animation
+    const desiredStopTime = 2.5; // Stop at 2.5 seconds
+    setTimeout(() => {
+      animationAction.setEffectiveTimeScale(0);
+      animationAction.time = 0.2;
+    }, desiredStopTime * 1000);
   }, []);
 
   return (
