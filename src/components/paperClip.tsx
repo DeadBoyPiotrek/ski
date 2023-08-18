@@ -23,26 +23,19 @@ type GLTFResult = GLTF & {
 };
 
 type ActionName = 'Armature|Spring_Action';
-type GLTFActions = Record<ActionName, THREE.AnimationAction>;
 
 export function Model(props: JSX.IntrinsicElements['group']) {
-  const group = useRef<THREE.Group>();
+  const group = useRef<THREE.Group>(null);
   const { nodes, materials, animations } = useGLTF(
     '/simple_paper_clip/scene.gltf'
   ) as GLTFResult;
-  const { actions, mixer } = useAnimations<GLTFActions>(animations, group);
+  const { actions, mixer } = useAnimations(animations, group);
   useEffect(() => {
     const animationAction = mixer.clipAction(animations[0]);
-    // Start the animation
     animationAction.play();
-
-    // Wait for the desired time before stopping the animation
-    const desiredStopTime = 2.5; // Stop at 2.5 seconds
-    setTimeout(() => {
-      animationAction.setEffectiveTimeScale(0);
-      animationAction.time = 0.2;
-    }, desiredStopTime * 1000);
-  }, []);
+    mixer.setTime(0.22);
+    animationAction.paused = true;
+  }, [animations, group, mixer]);
 
   return (
     <group ref={group} {...props} dispose={null}>

@@ -1,17 +1,18 @@
 'use client';
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Model } from './paperClip';
 
-export const Scene = () => {
+export const Scene = ({ sliderValue: number }) => {
   return (
     <Canvas>
+      <PerspectiveCamera makeDefault position={[0, 5, 5]} />
       <OrbitControls />
       <ambientLight />
       <pointLight position={[1, 2, 1]} intensity={10} />
       <pointLight position={[-1, -2, 1]} intensity={10} />
 
-      <Model />
+      <Model sliderValue={sliderValue} />
     </Canvas>
   );
 };
