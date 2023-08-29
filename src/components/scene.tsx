@@ -3,7 +3,7 @@ import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Model } from './paperClip';
 
-export const Scene = ({ sliderValue: number }) => {
+export const Scene = ({ sliderValue }: { sliderValue: number }) => {
   return (
     <Canvas>
       <PerspectiveCamera makeDefault position={[0, 5, 5]} />

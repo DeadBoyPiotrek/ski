@@ -22,20 +22,24 @@ type GLTFResult = GLTF & {
   };
 };
 
-type ActionName = 'Armature|Spring_Action';
+// type ActionName = 'Armature|Spring_Action';
 
-export function Model(props: JSX.IntrinsicElements['group']) {
+export function Model(
+  props: JSX.IntrinsicElements['group'] & { sliderValue: number }
+) {
+  console.log(`🚀 ~ props.sliderValue:`, props.sliderValue);
+
   const group = useRef<THREE.Group>(null);
   const { nodes, materials, animations } = useGLTF(
     '/simple_paper_clip/scene.gltf'
   ) as GLTFResult;
-  const { actions, mixer } = useAnimations(animations, group);
+  const { mixer } = useAnimations(animations, group);
   useEffect(() => {
     const animationAction = mixer.clipAction(animations[0]);
     animationAction.play();
-    mixer.setTime(0.22);
     animationAction.paused = true;
-  }, [animations, group, mixer]);
+    animationAction.time = props.sliderValue;
+  }, [animations, group, mixer, props.sliderValue]);
 
   return (
     <group ref={group} {...props} dispose={null}>

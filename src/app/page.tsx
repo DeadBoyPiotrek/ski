@@ -1,25 +1,21 @@
+'use client';
+import { Slider } from '@/components/slider';
 import { Scene } from '@/components/scene';
 import { useState } from 'react';
 
 export default function Home() {
-  const [sliderValue, setSliderValue] = useState(0);
+  const [sliderValue, setSliderValue] = useState(1);
+
+  const changeSliderValue = (value: number) => {
+    setSliderValue(value);
+  };
 
   return (
     <main className="h-screen">
-      <div className="border h-full">
+      <div className="border h-3/4 ">
         <Scene sliderValue={sliderValue} />
-
-        <div className="flex justify-center">
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            value={sliderValue}
-            onChange={e => setSliderValue(Number(e.target.value))}
-          />
-        </div>
       </div>
+      <Slider changeSliderValue={changeSliderValue} />
     </main>
   );
 }
